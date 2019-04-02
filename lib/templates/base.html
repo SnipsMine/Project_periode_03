@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+	<meta name="generator" content="Geany 1.29" />
+	<link rel="stylesheet" href="../static/stylesheet.css">
+
+<body>
+	<!--Kop-->
+	<header>
+		<img src="../static/images/kite.jpeg" alt="kiting" class="center">
+		<h1>EMS Development</h1>
+
+		<!--Links naar groep-->
+		<ul>
+			<li class="first_vertical"><a class="active" href="/">Micha</a></li>
+			<li> <a href="https://bioinf.nl/~jlaeisinga/">Lisan</a></li>
+			<li> <a href="https://bioinf.nl/~jdijkstra/">Janine</a></li>
+			<li> <a href="https://bioinf.nl/~jmvaneijk/">Jamie</a></li>
+			<li> <a href="https://bioinf.nl/~mmchibma/">Marije</a></li>
+		</ul>
+	</header>
+
+	<!--Navigatie-->
+	<ul>
+		<li class="first_horizontal"><a class="{{ home }}" href="/">Home</a></li>
+		<li><a class="{{ gff_reader }}" href="gff_reader">GFF Reader</a></li>
+		<li><a class="{{ gff_info }}" href="info_gff_file_format">Info GFF file format</a></li>
+		<li><a class="{{ contact }}" href="contact">Contact</a></li>
+	</ul>
+
+	<!--Inhoud-->
+	{% block content%}
+    {% endblock %}
+
+	<!--foetnote-->
+	<footer>
+		<p><small>&copy;&nbsp;2019 Micha Beens</small></p>
+	</footer>
+</body>
+</html>

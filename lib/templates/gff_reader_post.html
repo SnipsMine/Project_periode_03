@@ -1,0 +1,110 @@
+{% extends "gff_reader_get.html" %}
+
+    {% block data %}
+        <!--Links verschillende data-->
+        <ul id="file_content" class="file_content">
+            {% if show_graph_length_freq %}
+        	    <li class="first_vertical file_content"> <a href="#freq_length">Lengte frequentie (lijn grafiek)</a></li>
+            {% endif %}
+            {% if  show_graph_gem_length %}
+        	    <li class="file_content"> <a href="#gem_length">Gemiddelde lengte (bar diagram)</a></li>
+        	{% endif %}
+            {% if show_graph_intron_exon%}
+                <li class="file_content"> <a href="#intron_exon_verdeling">Verdeling intronen & exonen binnen mRNA's (bar diagram)</a></li>
+            {% endif %}
+        </ul>
+
+        <!--Uiwerking data-->
+
+        <!--overzicht line frequentie data-->
+        {%  if show_graph_length_freq %}
+            <h2><a id="freq_length">De frequentie van elke lengte</a></h2>
+            <img src="data:image/png;base64,{{ graph1 }}" alt="frequentie line graph not found" class="center">
+
+            <ul class="ul_raw one_deep">
+                <li class="li_raw"><span class="caret raw">Ruwe data grafiek</span>
+                    <ul class="nested two_deep">
+                        {% for feature in  length_freq_data%}
+
+                            <li class="li_raw"> <span class="caret raw">{{ feature[0] }}</span>
+
+                                <ul class="nested three_deep">
+
+                                    <li class="li_table_length"><p class="raw"><b>Lengte</b></p></li>
+                                    <li class="li_table_length"><p class="raw"><b>Frequentie</b></p></li>
+
+                                    {% for  index in range(feature[1]|length) %}
+                                        <!--x-as-->
+                                        <li class="li_table_length"><p class="raw">{{ feature[1][index] }}</p></li>
+
+                                        <!--y-as-->
+                                        <li class="li_table_length"><p class="raw">{{ feature[2][index] }}</p></li>
+                                    {% endfor %}
+
+                                </ul>
+
+                            </li>
+
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <li class="li_raw"><a class="raw" href="../static/output/freq_length.txt" download="length_freq">Download de ruwe data</a></li>
+                <li class="li_raw"><a class="raw" href="data:image/png;base64,{{ graph1 }}" download="length_freq">Download de grafiek</a> </li>
+
+            </ul>
+        {% endif %}
+
+        <!--overzicht Gemiddelde lengte data-->
+        {%  if show_graph_gem_length %}
+            <h2><a id="gem_length">De Gemiddelde lengte van elke feature</a></h2>
+            <img src="data:image/png;base64,{{ graph2 }}" alt="gemiddelde lenght barplot not found" class="center">
+
+            <ul class="ul_raw one_deep">
+                <li class="li_raw"><span class="caret raw">Ruwe data grafiek</span>
+                    <ul class="nested two_deep">
+                        <li class="li_table_length"><p class="raw"><b>Feature</b></p></li>
+
+                        <li class="li_table_length"><p class="raw"><b>Gemiddelde lengte</b></p></li>
+
+                        {% for feature in gem_length_data %}
+                            <li class="li_table_length"><p class="raw">{{ feature[0] }}</p></li>
+
+                            <li class="li_table_length"><p class="raw">{{ feature[1] }}</p></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <li class="li_raw"><a class="raw" href="../static/output/gem_length.txt" download="gem_length">Download de ruwe data</a></li>
+                <li class="li_raw"><a class="raw" href="data:image/png;base64,{{ graph2 }}" download="gem_length">Download de grafiek</a> </li>
+            </ul>
+        {% endif %}
+
+        <!--overzicht intron/exon verdeling data-->
+        {% if show_graph_intron_exon %}
+            <h2><a id="intron_exon_verdeling">De verdeling van de intronen en exonen voor elke mRNA</a></h2>
+            <img src="data:image/png;base64,{{ graph3 }}" alt="percentage lenght barplot not found" class="center">
+
+            <ul class="ul_raw one_deep">
+                <li class="li_raw"><span class="caret raw">Ruwe data grafiek</span>
+                    <ul class="nested two_deep">
+                        <li class="li_table_perc_intron_exon"><p class="raw"><b>Name of mRNA</b></p></li>
+
+                        <li class="li_table_perc_intron_exon"><p class="raw"><b>Exon percentage</b></p></li>
+
+                        <li class="li_table_perc_intron_exon"><p class="raw"><b>Intron percentage</b></p></li>
+                        {% for index in  range(prec_intron_exon_data[0]|length) %}
+                            <li class="li_table_perc_intron_exon"><p class="raw">{{ prec_intron_exon_data[0][index] }}</p></li>
+
+                            <li class="li_table_perc_intron_exon"><p class="raw">{{ prec_intron_exon_data[1][index]|round(2) }}%</p></li>
+
+                            <li class="li_table_perc_intron_exon"><p class="raw">{{ prec_intron_exon_data[2][index]|round(2) }}%</p></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <li class="li_raw"><a class="raw" href="../static/output/exon_intron.txt" download="intron_exon">Download de ruwe data</a></li>
+                <li class="li_raw"><a class="raw" href="data:image/png;base64,{{ graph3 }}" download="intron_exon">Download de grafiek</a> </li>
+            </ul>
+        {% endif %}
+    {% endblock %}

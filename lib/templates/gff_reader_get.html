@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="wrapper">
+
+    	<p>welkom op de GFF Reader pagina</p>
+
+    	<form method="POST" enctype = "multipart/form-data">
+            <!-- input file-->
+    		<label for="file">Input GFF File:</label>
+    		<input type="file" id="file" name="file" accept=".gff"/><br/>
+
+            <!--options-->
+            <ul id="options" class="ul_options one_deep">
+                <li class="li_options"><span class="caret options">Opties</span>
+                    <ul class="nested two_deep">
+                        <li class="li_options"> <span class="caret options">Lengte frequentie (lijn grafiek)</span>
+                            <ul class="nested three_deep">
+                                <li class="li_options">
+                                    <input id="show_graph_length_freq" type="checkbox" name="show_graph_length_freq" class="checkbox" checked>
+                                    <label for="show_graph_length_freq" class="options checkbox">Toon grafiek</label>
+                                </li>
+                                <li class="li_options">
+                                    <input id="min_length" type="number" name="min_length" class="checkbox" placeholder="0">
+                                    <label for="min_length" class="options checkbox">Minimale lengte</label>
+                                </li>
+                                <li class="li_options">
+                                    <input id="max_length" type="number" name="max_length" class="checkbox" placeholder="length of longest sequentie">
+                                    <label for="max_length" class="options checkbox">Maximale lengte</label>
+                                </li>
+                                <li class="li_options">
+                                    <input id="step" type="number" name="step" class="checkbox" placeholder="100">
+                                    <label for="step" class="options checkbox">Stap groote</label>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li class="li_options"><span class="caret options">Gemiddelde lengte (bar diagram)</span>
+                            <ul class="nested three_deep">
+                                <li class="li_options">
+                                    <input id="show_graph_gem_length" type="checkbox" name="show_graph_gem_length" class="checkbox" checked>
+                                    <label for="show_graph_gem_length" class="options checkbox">Toon grafiek</label>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="li_options"><span class="caret options">Verdeling intronen & exonen binnen mRNA's (bar diagram)</span>
+                            <ul class="nested three_deep">
+                                <li class="li_options">
+                                    <input id="show_graph_intron_exon" type="checkbox" name="show_graph_intron_exon" class="checkbox" checked>
+                                    <label for="show_graph_intron_exon" class="options checkbox">Toon grafiek</label>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!--Submit-->
+    		<button type="submit" name='submit'>Submit</button>
+    	</form>
+
+        {% block data %}
+        {% endblock %}
+
+        <script src="../static/java_script/options.js"></script>
+    </div>
+{% endblock %}
