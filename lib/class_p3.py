@@ -27,13 +27,12 @@ class GffReader(object):
     """
 
     def __init__(self, gff_file):
-        self.data = self.read_file(gff_file)
+        self.read_file(gff_file)
 
-    @staticmethod
-    def read_file(file):
+    def read_file(self, file):
         file = file.split("\n")
         data = [line.strip().split() for line in file if not line.startswith("#") and line.strip().split() != []]
-        return data
+        self.data = data
 
     @staticmethod
     def encode_figure():
