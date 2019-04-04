@@ -1,4 +1,4 @@
-from lib.Test_Flask import app
+from lib.app_setup import app
 
 
 if __name__ == '__main__':
