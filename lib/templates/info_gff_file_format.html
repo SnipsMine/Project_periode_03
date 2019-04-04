@@ -2,7 +2,222 @@
 
 {% block content %}
 	<div id="wrapper">
-		<p>welkom op de GFF info pagina</p>
-	</div>
+		<h1>Description of the Format</h1>
+
+        <p>
+            GFF3 files are nine-column, tab-delimited, plain text files. Literal use of tab, newline, carriage return,
+            the percent (%) sign, and control characters must be encoded using RFC 3986 Percent-Encoding; no other
+            characters may be encoded. Backslash and other ad-hoc escaping conventions that have been added to the GFF
+            format are not allowed. The file contents may include any character in the set supported by the operating
+            environment, although for portability with other systems, use of Latin-1 or Unicode are recommended.
+        </p>
+
+        <p>
+            - tab (%09)<br/>
+            - newline (%0A)<br/>
+            - carriage return (%0D)<br/>
+            - % percent (%25)<br/>
+            - control characters (%00 through %1F, %7F)<br/>
+        </p>
+
+        <p>
+            In addition, the following characters have reserved meanings in column 9 and must be escaped when used in
+            other contexts:
+        </p>
+
+        <p>
+            - ; semicolon (%3B)<br/>
+            - = equals (%3D)<br/>
+            - & ampersand (%26)<br/>
+            - , comma (%2C)<br/>
+        </p>
+
+        <p>
+            Note that unescaped spaces are allowed within fields, meaning that parsers must split on tabs, not spaces.
+            Use of the "+" (plus) character to encode spaces is depracated from early versions of the spec and is no
+            longer allowed.
+        </p>
+
+        <p>
+            Undefined fields are replaced with the "." character, as described in the original GFF spec.
+        </p>
+
+        <h3>Column 1: "seqid"</h3>
+        <p class="kolom">
+            The ID of the landmark used to establish the coordinate system for the current feature. IDs may contain any
+            characters, but must escape any characters not in the set [a-zA-Z0-9.:^*$@!+_?-|]. In particular, IDs may
+            not contain unescaped whitespace and must not begin with an unescaped ">".
+        </p>
+        <br/>
+
+        <h3>Column 2: "source"</h3>
+        <p class="kolom">
+            The source is a free text qualifier intended to describe the algorithm or operating procedure that generated
+            this feature. Typically this is the name of a piece of software, such as "Genescan" or a database name, such
+            as "Genbank." In effect, the source is used to extend the feature ontology by adding a qualifier to the type
+            creating a new composite type that is a subclass of the type in the type column.
+        </p>
+        <br/>
+
+        <h3>Column 3: "type"</h3>
+        <p class="kolom">
+            The type of the feature (previously called the "method"). This is constrained to be either a term from the
+            Sequence Ontology or an SO accession number. The latter alternative is distinguished using the syntax
+            SO:000000. In either case, it must be sequence_feature (SO:0000110) or an is_a child of it.
+        </p>
+
+        <h3>Columns 4 & 5: "start" and "end"</h3>
+        <p class="kolom">
+            The start and end coordinates of the feature are given in positive 1-based integer coordinates, relative to
+            the landmark given in column one. Start is always less than or equal to end. For features that cross the
+            origin of a circular feature (e.g. most bacterial genomes, plasmids, and some viral genomes), the
+            requirement for start to be less than or equal to end is satisfied by making end = the position of the end +
+            the length of the landmark feature.
+            <br/>
+            For zero-length features, such as insertion sites, start equals end and the implied site is to the right of
+            the indicated base in the direction of the landmark.
+        </p>
+
+        <h3>Column 6: "score"</h3>
+        <p class="kolom">
+            The score of the feature, a floating point number. As in earlier versions of the format, the semantics of
+            the score are ill-defined. It is strongly recommended that E-values be used for sequence similarity features
+            , and that P-values be used for ab initio gene prediction features.
+        </p>
+
+        <h3>Column 7: "strand"</h3>
+        <p class="kolom">
+            The strand of the feature. + for positive strand (relative to the landmark), - for minus strand, and . for
+            features that are not stranded. In addition, ? can be used for features whose strandedness is relevant, but
+            unknown.
+        </p>
+
+        <h3>Column 8: "phase"</h3>
+        <p class="kolom">
+            For features of type "CDS", the phase indicates where the feature begins with reference to the reading
+            frame. The phase is one of the integers 0, 1, or 2, indicating the number of bases that should be removed
+            from the beginning of this feature to reach the first base of the next codon. In other words, a phase of "0"
+            indicates that the next codon begins at the first base of the region described by the current line, a phase
+            of "1" indicates that the next codon begins at the second base of this region, and a phase of "2" indicates
+            that the codon begins at the third base of this region. This is NOT to be confused with the frame, which is
+            simply start modulo 3.
+            <br>
+            For forward strand features, phase is counted from the start field. For reverse strand features, phase is
+            counted from the end field.
+            <br>
+            The phase is REQUIRED for all CDS features.
+        </p>
+
+        <h3>Column 9: "attributes"</h3>
+        <section class="kolom">
+            <p>
+                A list of feature attributes in the format tag=value. Multiple tag=value pairs are separated by
+                semicolons. URL escaping rules are used for tags or values containing the following characters: ",=;".
+                Spaces are allowed in this field, but tabs must be replaced with the %09 URL escape. Attribute values do
+                not need to be and should not be quoted. The quotes should be included as part of the value by parsers
+                and not stripped.
+            </p>
+
+            <p>
+                These tags have predefined meanings:
+            </p>
+
+            <h4>ID</h4>
+            <p class="kolom">
+                Indicates the ID of the feature. The ID attribute is required for features that have children (e.g. gene
+                and mRNAs), or for those that span multiple lines, but are optional for other features. IDs for each
+                feature must be unique within the scope of the GFF file. In the case of discontinuous features (i.e. a
+                single feature that exists over multiple genomic locations) the same ID may appear on multiple lines.
+                All lines that share an ID must collectively represent a single feature.
+            </p>
+
+            <h4>Name</h4>
+            <p class="kolom">
+                Display name for the feature. This is the name to be displayed to the user. Unlike IDs, there is no
+                requirement that the Name be unique within the file.
+            </p>
+
+            <h4>Alias</h4>
+            <p class="kolom">
+                A secondary name for the feature. It is suggested that this tag be used whenever a secondary identifier
+                for the feature is needed, such as locus names and accession numbers. Unlike ID, there is no requirement
+                that Alias be unique within the file.
+            </p>
+
+            <h4>Parent</h4>
+            <p class="kolom">
+                Indicates the parent of the feature. A parent ID can be used to group exons into transcripts,
+                transcripts into genes, an so forth. A feature may have multiple parents. Parent can only be used to
+                indicate a partof relationship.
+            </p>
+
+            <h4>Target</h4>
+            <p class="kolom">
+                Indicates the target of a nucleotide-to-nucleotide or protein-to-nucleotide alignment. The format of the
+                value is "target_id start end [strand]", where strand is optional and may be "+" or "-". If the
+                target_id contains spaces, they must be escaped as hex escape %20.
+            </p>
+
+            <h4>Gap</h4>
+            <p class="kolom">
+                The alignment of the feature to the target if the two are not collinear (e.g. contain gaps). The
+                alignment format is taken from the CIGAR format described in the Exonerate documentation. See "THE GAP
+                ATTRIBUTE" for a description of this format.
+            </p>
+
+            <h4>Derives_from</h4>
+            <p class="kolom">
+                Used to disambiguate the relationship between one feature and another when the relationship is a
+                temporal one rather than a purely structural "part of" one. This is needed for polycistronic genes. See
+                "PATHOLOGICAL CASES" for further discussion.
+            </p>
+
+            <h4>Note</h4>
+            <p class="kolom">
+                A free text note.
+            </p>
+
+            <h4>Dbxref</h4>
+            <p class="kolom">
+                A database cross reference. See the section "Ontology Associations and Db Cross References" for details
+                on the format.
+            </p>
+
+            <h4>Ontology_term</h4>
+            <p class="kolom">
+                A cross reference to an ontology term. See the section "Ontology Associations and Db Cross References"
+                for details.
+            </p>
+
+            <h4>Is_circular</h4>
+            <p class="kolom">
+                 A flag to indicate whether a feature is circular. See extended discussion below.
+            </p>
+            
+            <p>
+            Multiple attributes of the same type are indicated by separating the values with the comma "," character, as in:
+            </p>
+
+            <p class="kolom">
+                <b>Parent=AF2312,AB2812,abc-3</b>
+            </p>
+
+            <p>
+                In addition to Parent, the Alias, Note, Dbxref and Ontology_term attributes can have multiple values.
+            </p>
+
+            <p>
+            Note that attribute names are case sensitive. "Parent" is not the same as "parent".
+            </p>
+
+            <p>
+                All attributes that begin with an uppercase letter are reserved for later use. Attributes that begin with a
+                lowercase letter can be used freely by applications.
+            </p>
+        </section>
+
+    <p><b>bron: <a href="https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md">https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md</a></b></p>
+
+    </div>
 
 {% endblock %}

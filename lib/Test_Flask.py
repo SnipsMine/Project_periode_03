@@ -1,7 +1,5 @@
 from flask import Flask, request, render_template, make_response
 from lib.class_p3 import GffReader as Reader
-import os
-import tempfile
 from lib.make_output_files import make_output_line_freq, make_output_gem_length, make_output_exon_intron
 
 UPLOAD_FOLDER = "static/uploads"
