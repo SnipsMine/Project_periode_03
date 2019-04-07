@@ -1,3 +1,6 @@
+__author__ = "Micha Beens"
+__version__ = "1.0.0"
+
 
 def make_output_line_freq(data):
     with open("../lib/static/output/freq_length.txt", "w") as output:

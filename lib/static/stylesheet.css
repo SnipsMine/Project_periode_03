@@ -85,16 +85,20 @@ div#wrapper{
 	padding: 0 4% 20px 4%;
 }
 
+div#wrapper h1{
+	margin-bottom: 0;
+}
+
+div#wrapper h2{
+    margin-top: 30px;
+}
+
 div#wrapper h3{
 	margin-bottom: 0;
 }
 
 div#wrapper h4{
 	margin-bottom: 0;
-}
-
-.kolom{
-	padding-left: 30px;
 }
 
 form{
@@ -105,9 +109,6 @@ ul#file_content{
 	width: 30%;
 	margin-top: 20px;
 	margin-bottom: 20px;
-}
-div#wrapper h2{
-    margin-top: 30px;
 }
 
 /*opmaak footer*/
@@ -124,14 +125,15 @@ p{
 }
 
 /*classes*/
+/*opmaak kolomen*/
+.kolom{
+	padding-left: 30px;
+}
 
+/*opmaak navigatie bars*/
 .first_horizontal{
 	border: 1px solid #006600;
 	float: left;
-}
-
-.active {
-  background-color: #006600;
 }
 
 .first_vertical{
@@ -141,6 +143,11 @@ p{
 
 .file_content{
     width: 100%;
+}
+
+/*opmaak vouw menu's*/
+.active {
+  background-color: #006600;
 }
 
 .ul_options{
@@ -241,4 +248,12 @@ p{
 
 .three_deep{
 	background-color: #85e085;
+}
+
+.thirty_seventy{
+	width: 30%;
+}
+
+.left{
+	float: left;
 }

@@ -1,0 +1,4 @@
+Feature				Gemiddelde lengte
+mRNA				8451.064935064935
+exon				586.6134969325153
+CDS				504.8333333333333
