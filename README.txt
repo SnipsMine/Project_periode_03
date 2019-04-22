@@ -37,8 +37,6 @@ Files:
     - temp_file_test
 > venv
     -run_app
-- micha_beens_flash.pdf
-- micha_beens_poster.pdf
 
 --------------------------------------------
 
